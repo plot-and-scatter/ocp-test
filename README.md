@@ -3,38 +3,20 @@
 A sample project to test the automatic deployment of a React frontend and .NET
 Core backend.
 
-## How I made this
-
-### Frontend
-
-`npx create-react-app frontend`
-
-Test it works:
-
-```
-cd frontend
-yarn install
-yarn start
-```
-
-Visit http://localhost:3000 to see the app.
+## What we want to happen
 
 ### Backend
 
-```
-dotnet new webapi -o backend
-dotnet dev-certs https --trust
-```
+We want to be able to provide settings to the backend after building it.
+Nominally this should be able to happen by placing an
+`appsettings.Production.json` file, with appropriate settings in it, alongside
+the built project.
 
-Test it works:
+### Frontend
 
-```
-cd backend
-dotnet run
-```
+Once we have deployed the backend, we want to be able to EITHER:
 
-Visit http://localhost:5000/WeatherForecast
-
-### Misc
-
-Adjusted gitignore settings.
+1) Create an `.env` file with the API URL in the `frontend` build, **BEFORE**
+that build calls `yarn start`; or
+2) Create/replace an `__ENV.js` file in the `/public` folder of the `frontend`
+build, in which case we can remove the `prestart` script in `package.json`.

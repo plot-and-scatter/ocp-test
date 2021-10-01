@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using backend.Services;
 
 namespace backend
 {
@@ -32,6 +33,18 @@ namespace backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
             });
+
+            services.Configure<ForecastPrefixServiceOptions>(Configuration.GetSection("ForecastPrefix"));
+            services.AddSingleton<ForecastPrefixService>();
+
+            // CORS configuration. Note we have to manually list all the methods
+            // allowed: options.AllowAnyMethod() does NOT include "PATCH".
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
+                    .WithMethods("GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS")
+                    .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +57,12 @@ namespace backend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+
+            // Turning this off for simplicity. It can work, but to not mess
+            // around with CORS, MUST come after the app.useCors(...) call
+            // above.
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

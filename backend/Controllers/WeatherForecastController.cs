@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -17,10 +18,12 @@ namespace backend.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ForecastPrefixService _forecastPrefix;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ForecastPrefixService forecastPrefix)
         {
             _logger = logger;
+            _forecastPrefix = forecastPrefix;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace backend.Controllers
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = _forecastPrefix.GetPrefix() + " " + Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
         }
