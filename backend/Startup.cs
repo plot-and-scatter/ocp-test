@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using backend.Services;
 
 namespace backend
@@ -29,10 +28,6 @@ namespace backend
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
-            });
 
             services.Configure<ForecastPrefixServiceOptions>(Configuration.GetSection("ForecastPrefix"));
             services.AddSingleton<ForecastPrefixService>();
@@ -53,8 +48,6 @@ namespace backend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
 
             app.UseCors("CorsPolicy");
