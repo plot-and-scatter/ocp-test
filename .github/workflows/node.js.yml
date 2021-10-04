@@ -25,10 +25,14 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: |
+    - name: Yarn install
+      run: yarn install
+      working-directory: frontend
+    - name: Yarn build
+      run: |
         REACT_APP_GIT_SHA=${GITHUB_SHA::6}
         yarn build
+      working-directory: frontend
     - name: Publish build artifact
       uses: actions/upload-artifact@v2
       with:
