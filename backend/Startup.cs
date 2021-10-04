@@ -29,7 +29,9 @@ namespace backend
 
             services.AddControllers();
 
-            services.Configure<ForecastPrefixServiceOptions>(Configuration.GetSection("ForecastPrefix"));
+            services.Configure<ForecastPrefixServiceOptions>(
+                Configuration.GetSection("ForecastPrefix")
+            );
             services.AddSingleton<ForecastPrefixService>();
 
             // CORS configuration. Note we have to manually list all the methods

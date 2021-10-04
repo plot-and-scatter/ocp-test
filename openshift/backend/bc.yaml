@@ -1,0 +1,129 @@
+apiVersion: v1
+objects:
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    labels:
+      build: ${NAME}
+    managedFields:
+    - apiVersion: build.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:openshift.io/generated-by: {}
+          f:labels:
+            .: {}
+            f:build: {}
+        f:spec:
+          f:output:
+            f:to:
+              .: {}
+              f:kind: {}
+              f:name: {}
+          f:runPolicy: {}
+          f:source:
+            f:contextDir: {}
+            f:git:
+              .: {}
+              f:uri: {}
+            f:type: {}
+          f:strategy:
+            f:sourceStrategy:
+              .: {}
+              f:from:
+                .: {}
+                f:kind: {}
+                f:name: {}
+                f:namespace: {}
+            f:type: {}
+      manager: oc
+      operation: Update
+      time: "2021-10-01T04:25:49Z"
+    - apiVersion: build.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:triggers: {}
+        f:status:
+          f:lastVersion: {}
+      manager: openshift-apiserver
+      operation: Update
+      time: "2021-10-01T04:25:49Z"
+    name: ${NAME}
+    namespace: ${NAMESPACE}
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${NAME}:${IMAGE_TAG}
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: /backend
+      git:
+        uri: https://github.com/plot-and-scatter/ocp-test.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        from:
+          kind: ImageStreamTag
+          name: dotnet:3.1-ubi8
+          namespace: openshift
+      type: Source
+    successfulBuildsHistoryLimit: 5
+    triggers:
+    - github:
+        secret: SShZINTysk6JanX-6Oo0
+      type: GitHub
+    - generic:
+        secret: Dx92dCz7Yx-881Pz0T4w
+      type: Generic
+    - type: ConfigChange
+    - imageChange:
+        lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/dotnet@sha256:e14668049e9a80fc66f0a428301a53fb4685e978393297505e6d0a1c356917fe
+      type: ImageChange
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    generation: 1
+    labels:
+      build: ${NAME}
+    managedFields:
+    - apiVersion: image.openshift.io/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:annotations:
+            .: {}
+            f:openshift.io/generated-by: {}
+          f:labels:
+            .: {}
+            f:build: {}
+      manager: oc
+      operation: Update
+      time: "2021-10-01T04:25:49Z"
+    name: ${NAME}
+    namespace: ${NAMESPACE}
+  spec:
+    lookupPolicy:
+      local: false
+kind: Template
+parameters:
+- name: NAMESPACE
+  required: true
+  description: The namespace in which to deploy
+- name: NAME
+  required: true
+  description: The name of the components
+- name: IMAGE_TAG
+  required: true
+  description: The output image stream tag

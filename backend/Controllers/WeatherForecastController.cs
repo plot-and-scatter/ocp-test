@@ -34,7 +34,10 @@ namespace backend.Controllers
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = _forecastPrefix.GetPrefix() + " " + Summaries[rng.Next(Summaries.Length)]
+                Summary = _forecastPrefix.GetPrefix() + " " +
+                          _forecastPrefix.GetConfigMapText() + " " +
+                          _forecastPrefix.GetSecretText() + " " +
+                            Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
         }
