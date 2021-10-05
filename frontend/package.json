@@ -13,7 +13,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "prestart": "react-env",
+    "prestart": "react-env --dest=public/config",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
