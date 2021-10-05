@@ -84,7 +84,7 @@ You should be in the `/openshift/frontend` folder.
 To recreate the objects from the build config:
 
 ```
-oc process -f ./bc.yaml -p NAME=ocp-test-frontend IMAGE_TAG=<SOMETAG> NAMESPACE=<YOURNAMESPACE> | oc apply -f -
+oc process -f ./bc.yaml -p NAME=ocp-test-frontend IMAGE_TAG=<SOMETAG> TOOLS_NAMESPACE=<TOOLS_NAMESPACE> | oc apply -f -
 ```
 
 Where NAMESPACE is the project name, e.g. `abc123-tools`.
@@ -102,7 +102,7 @@ oc start-build ocp-test-frontend --from-archive=https://github.com/plot-and-scat
 To create the objects:
 
 ```
-oc process -f ./dc.yaml -p NAME=ocp-test-frontend IMAGE_TAG=<SOMETAG> NAMESPACE=<YOURNAMESPACE> | oc apply -f -
+oc process -f ./dc.yaml -p NAME=ocp-test-frontend IMAGE_TAG=<SOMETAG> NAMESPACE=<YOURNAMESPACE> TOOLS_NAMESPACE=<TOOLS_NAMESPACE> BASE_OPENSHIFT_URL=<BASEURL> | oc apply -f -
 ```
 
 
