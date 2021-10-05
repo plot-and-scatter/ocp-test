@@ -36,50 +36,8 @@ objects:
       generation: 4
       labels:
         build: ${NAME}
-      managedFields:
-        - apiVersion: build.openshift.io/v1
-          fieldsType: FieldsV1
-          fieldsV1:
-            'f:metadata':
-              'f:annotations':
-                .: {}
-                'f:openshift.io/generated-by': {}
-              'f:labels':
-                .: {}
-                'f:build': {}
-            'f:spec':
-              'f:output':
-                'f:to':
-                  .: {}
-                  'f:kind': {}
-                  'f:name': {}
-              'f:runPolicy': {}
-              'f:source':
-                'f:binary': {}
-                'f:type': {}
-              'f:strategy':
-                'f:sourceStrategy':
-                  .: {}
-                  'f:from':
-                    .: {}
-                    'f:kind': {}
-                    'f:name': {}
-                    'f:namespace': {}
-                'f:type': {}
-              'f:triggers': {}
-          manager: oc
-          operation: Update
-          time: '2021-10-04T20:48:41Z'
-        - apiVersion: build.openshift.io/v1
-          fieldsType: FieldsV1
-          fieldsV1:
-            'f:status':
-              'f:lastVersion': {}
-          manager: openshift-apiserver
-          operation: Update
-          time: '2021-10-04T21:39:46Z'
       name: ${NAME}
-      namespace: ${NAMESPACE}
+      namespace: ${TOOLS_NAMESPACE}
   - apiVersion: image.openshift.io/v1
     kind: ImageStream
     spec:
@@ -91,26 +49,12 @@ objects:
       generation: 1
       labels:
         build: ${NAME}
-      managedFields:
-        - apiVersion: image.openshift.io/v1
-          fieldsType: FieldsV1
-          fieldsV1:
-            'f:metadata':
-              'f:annotations':
-                .: {}
-                'f:openshift.io/generated-by': {}
-              'f:labels':
-                .: {}
-                'f:build': {}
-          manager: oc
-          operation: Update
-          time: '2021-10-04T20:48:41Z'
       name: ${NAME}
 kind: Template
 parameters:
-- name: NAMESPACE
+- name: TOOLS_NAMESPACE
   required: true
-  description: The namespace in which to deploy
+  description: The tools namespace (where the images are built)
 - name: NAME
   required: true
   description: The name of the components
